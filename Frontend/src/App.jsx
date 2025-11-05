@@ -37,6 +37,7 @@ import Addresses from "./pages/Addresses";
 import EditUserDetails from "./pages/EditUserDetails";
 import ChangeUserPassword from "./pages/ChangeUserPassword";
 import EditAddressDetails from "./pages/EditAddressDetails";
+import ViewSeller from "./pages/ViewSeller";
 
 const App = () => {
   const isSellerPath = useLocation().pathname.includes("seller");
@@ -65,6 +66,7 @@ const App = () => {
           <Route path="/products/:category" element={<ProductCategory />} />
           <Route path="/products/:category/:id" element={<ProductDetails />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/view/:sellerId" element={<ViewSeller />} />
           <Route
             path="/address"
             element={

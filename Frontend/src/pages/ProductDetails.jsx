@@ -78,7 +78,10 @@ const ProductDetails = () => {
 
         <div className="text-sm w-full md:w-1/2">
           <h1 className="text-3xl font-medium">{product.name}</h1>
-          <p className="tracking-tighter text-base">
+          <p
+            onClick={() => navigate(`/view/${product.seller?._id}`)}
+            className="tracking-tighter text-base cursor-pointer hover:underline hover:text-emerald-600 transition"
+          >
             From {product.seller.storeName}
           </p>
 
