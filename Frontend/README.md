@@ -118,10 +118,10 @@ Built with **Redux Toolkit (RTK)** for scalable and maintainable global state.
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/Jashan-Maan/Freshcart-Frontend.git
+git clone https://github.com/Jashan-Maan/FreshCart-Frontend.git
 
 # 2. Navigate to the project directory
-cd Freshcart-Frontend
+cd FreshCart-Frontend
 
 # 3. Install dependencies
 npm install

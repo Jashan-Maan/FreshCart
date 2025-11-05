@@ -95,10 +95,10 @@ This backend serves as the **central engine** for a multi-role platform supporti
 
 ```bash
 # Clone the repository
-git clone https://github.com/Jashan-Maan/Freshcart-Backend.git
+git clone https://github.com/Jashan-Maan/FreshCart-Backend.git
 
 # Navigate into project directory
-cd Freshcart-Backend
+cd FreshCart-Backend
 
 # Install dependencies
 npm install
