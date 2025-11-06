@@ -1,8 +1,9 @@
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { ApiUrl } from "../constants";
 
 const userApi = axios.create({
-  baseURL: "/api/v1",
+  baseURL: ApiUrl,
   withCredentials: true,
 });
 
@@ -25,9 +26,12 @@ userApi.interceptors.response.use(
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        const refreshResponse = await axios.get("/api/v1/users/refresh-token", {
-          withCredentials: true,
-        });
+        const refreshResponse = await axios.get(
+          `${ApiUrl}/users/refresh-token`,
+          {
+            withCredentials: true,
+          }
+        );
         if (refreshResponse.status === 200) {
           toast.success("Session Refreshed");
           return userApi(originalRequest);

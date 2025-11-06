@@ -9,6 +9,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectAllProducts } from "../features/products/productSlice";
+import { ApiUrl } from "../constants";
 
 const ViewSeller = () => {
   const { navigate, toast } = useContext(AppContext);
@@ -22,7 +23,9 @@ const ViewSeller = () => {
   const fetchSeller = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`/api/v1/sellers/${sellerId}`);
+      const response = await axios.get(`${ApiUrl}/sellers/${sellerId}`, {
+        withCredentials: true,
+      });
       if (response.status === 200) {
         setSellerInfo(response.data.data);
       }

@@ -54,7 +54,7 @@ const Home = () => {
         className="bg-gradient-to-br from-emerald-50 via-white to-emerald-100 py-16 md:py-20 mt-20 text-center rounded-xl mx-6 md:mx-16 lg:mx-24 xl:mx-32"
       >
         <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
-          Freshness Delivered Daily 🥬
+          Freshness Delivered Daily
         </h2>
         <p className="text-gray-500 max-w-2xl mx-auto mb-8">
           Order your favorite groceries, snacks, and essentials with just a few

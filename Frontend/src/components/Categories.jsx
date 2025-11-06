@@ -2,6 +2,7 @@
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../context/AppContext";
 import axios from "axios";
+import { ApiUrl } from "../constants";
 
 const Categories = () => {
   const { navigate, toast } = useContext(AppContext);
@@ -9,7 +10,7 @@ const Categories = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get("/api/v1/categories", {
+      const response = await axios.get(`${ApiUrl}/categories`, {
         withCredentials: true,
       });
       if (response.status === 200) {

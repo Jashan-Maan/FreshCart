@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
@@ -36,7 +37,6 @@ const Navbar = () => {
     if (searchQuery.length > 0) {
       navigate("/products");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery]);
   // const onSearchSubmit = (e) => {
   //   e.preventDefault();

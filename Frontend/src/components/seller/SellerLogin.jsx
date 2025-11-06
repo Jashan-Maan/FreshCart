@@ -5,6 +5,7 @@ import { FaRegEyeSlash } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSellerAuth } from "../../features/auth/authSlice.js";
 import axios from "axios";
+import { ApiUrl } from "../../constants.js";
 
 const SellerLogin = () => {
   const { navigate, toast } = useContext(AppContext);
@@ -28,7 +29,9 @@ const SellerLogin = () => {
   const registerSeller = async () => {
     const data = { storeName, email, password, phoneNumber, address };
     try {
-      const response = await axios.post("/api/v1/sellers/register", data);
+      const response = await axios.post(`${ApiUrl}/sellers/register`, data, {
+        withCredentials: true,
+      });
       if (response.status === 201) {
         toast.success(response.data.message);
         await dispatch(fetchSellerAuth());
@@ -42,7 +45,9 @@ const SellerLogin = () => {
   const loginSeller = async () => {
     const data = { email, password };
     try {
-      const response = await axios.post("/api/v1/sellers/login", data);
+      const response = await axios.post(`${ApiUrl}/sellers/login`, data, {
+        withCredentials: true,
+      });
       if (response.status === 200) {
         toast.success(response.data.message);
         await dispatch(fetchSellerAuth());

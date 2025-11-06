@@ -1,8 +1,9 @@
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { ApiUrl } from "../constants";
 
 const adminApi = axios.create({
-  baseURL: "/api/v1",
+  baseURL: ApiUrl,
   withCredentials: true,
 });
 adminApi.interceptors.response.use(

@@ -8,6 +8,7 @@ import { fetchUserAuth } from "../features/auth/authSlice";
 import { setShowUserLogin } from "../features/ui/uiSlice";
 import { selectAllProducts } from "../features/products/productSlice";
 import axios from "axios";
+import { ApiUrl } from "../constants";
 
 const Login = () => {
   const [state, setState] = useState("login");
@@ -42,7 +43,9 @@ const Login = () => {
   const registerUser = async () => {
     const data = { name, email, password, phoneNumber };
     try {
-      const response = await axios.post("/api/v1/users/register", data);
+      const response = await axios.post(`${ApiUrl}/users/register`, data, {
+        withCredentials: true,
+      });
       if (response.status === 201) {
         toast.success(response.data.message);
         await dispatch(fetchUserAuth());
@@ -59,7 +62,9 @@ const Login = () => {
   const loginUser = async () => {
     const data = { email, password };
     try {
-      const response = await axios.post("/api/v1/users/login", data);
+      const response = await axios.post(`${ApiUrl}/users/login`, data, {
+        withCredentials: true,
+      });
       if (response.status === 200) {
         await dispatch(fetchUserAuth());
         await setLocalCartToDB();

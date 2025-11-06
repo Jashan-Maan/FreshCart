@@ -1,9 +1,30 @@
 import express from "express";
 import { errorHandling } from "./middlewares/errorHandling.middleware.js";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import { handleStripeWebhook } from "./controllers/order.controller.js";
 
 const app = express();
+
+const allowedOrigins = [
+  "https://freshcart-snowy.vercel.app",
+  "http://localhost:5173",
+  process.env.CORS_ORIGIN,
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 app.post(
   "/api/v1/orders/webhook",

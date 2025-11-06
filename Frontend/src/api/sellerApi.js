@@ -1,8 +1,9 @@
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { ApiUrl } from "../constants";
 
 const sellerApi = axios.create({
-  baseURL: "/api/v1",
+  baseURL: ApiUrl,
   withCredentials: true,
 });
 
@@ -26,7 +27,7 @@ sellerApi.interceptors.response.use(
       originalRequest._retry = true;
       try {
         const refreshResponse = await axios.get(
-          "/api/v1/sellers/refresh-token",
+          `${ApiUrl}/sellers/refresh-token`,
           { withCredentials: true }
         );
         if (refreshResponse.status === 200) {

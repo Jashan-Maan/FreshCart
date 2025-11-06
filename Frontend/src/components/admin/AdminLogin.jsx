@@ -6,6 +6,7 @@ import { FaRegEye } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAdminAuth } from "../../features/auth/authSlice";
 import axios from "axios";
+import { ApiUrl } from "../../constants";
 
 const AdminLogin = () => {
   const { toast, navigate } = useContext(AppContext);
@@ -13,13 +14,17 @@ const AdminLogin = () => {
   const dispatch = useDispatch();
 
   const [hidePassword, setHidePassword] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const LoginAdmin = async () => {
     const data = { email, password };
+    setLoading(true);
     try {
-      const response = await axios.post("/api/v1/admin/login", data);
+      const response = await axios.post(`${ApiUrl}/admin/login`, data, {
+        withCredentials: true,
+      });
       if (response.status === 200) {
         toast.success(response.data.message);
         await dispatch(fetchAdminAuth());
@@ -27,6 +32,8 @@ const AdminLogin = () => {
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Login failed");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -98,10 +105,11 @@ const AdminLogin = () => {
         </div>
 
         <button
+          disabled={loading}
           type="submit"
           className="w-full bg-gradient-to-r from-emerald-600 to-emerald-500 text-white font-semibold py-2.5 rounded-lg shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all"
         >
-          Login
+          {loading ? "Logging in..." : "Login"}
         </button>
 
         <p className="text-center text-xs text-gray-500 mt-6">
