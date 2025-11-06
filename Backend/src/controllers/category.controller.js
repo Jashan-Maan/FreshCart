@@ -15,9 +15,12 @@ export const createCategory = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Image is required");
   }
 
-  const imagePath = req.file.path;
+  // const imagePath = req.file.path;
+  const buffer = req.file.buffer;
+  const originalname = req.file.originalname;
 
-  const imageUrl = await uploadToCloudinary(imagePath);
+  // const imageUrl = await uploadToCloudinary(imagePath);
+  const imageUrl = await uploadToCloudinary(buffer, originalname);
 
   if (!imageUrl) {
     throw new ApiError(500, "Image upload failed");
@@ -49,8 +52,13 @@ export const updateCategory = asyncHandler(async (req, res) => {
   }
 
   if (req.file) {
-    const newImagePath = req.file.path;
-    const newImageUrl = await uploadToCloudinary(newImagePath);
+    // const newImagePath = req.file.path;
+
+    const buffer = req.file.buffer;
+    const originalname = req.file.originalname;
+
+    // const newImageUrl = await uploadToCloudinary(newImagePath);
+    const newImageUrl = await uploadToCloudinary(buffer, originalname);
     updateData.image = newImageUrl;
   }
 

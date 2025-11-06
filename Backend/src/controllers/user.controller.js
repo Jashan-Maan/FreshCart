@@ -184,11 +184,14 @@ export const updateAvatar = asyncHandler(async (req, res) => {
   if (!req.file) {
     throw new ApiError(400, "Avatar is required");
   }
-  const path = req.file.path;
+  // const path = req.file.path;
+  const buffer = req.file.buffer;
+  const originalname = req.file.originalname;
 
   const oldAvatar = req.user.avatar;
 
-  const avatarUrl = await uploadToCloudinary(path);
+  // const avatarUrl = await uploadToCloudinary(path);
+  const avatarUrl = await uploadToCloudinary(buffer, originalname);
 
   if (!avatarUrl) {
     throw new ApiError(500, "Avatar upload failed");

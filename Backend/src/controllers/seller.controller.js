@@ -193,11 +193,14 @@ export const updateStoreImage = asyncHandler(async (req, res) => {
   if (!req.file) {
     throw new ApiError(400, " Store Image is required");
   }
-  const path = req.file.path;
+  // const path = req.file.path;
+  const buffer = req.file.buffer;
+  const originalname = req.file.originalname;
 
   const oldImageUrl = req.seller?.storeImage;
 
-  const storeImageUrl = await uploadToCloudinary(path);
+  // const storeImageUrl = await uploadToCloudinary(path);
+  const storeImageUrl = await uploadToCloudinary(buffer, originalname);
   if (!storeImageUrl) {
     throw new ApiError(500, "Store Image upload failed");
   }

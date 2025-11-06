@@ -24,9 +24,15 @@ export const createProduct = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Images are required");
   }
 
+  // const images = [];
+  // for (let image of req.files) {
+  //   const result = await uploadToCloudinary(image.path);
+  //   images.push(result);
+  // }
+
   const images = [];
-  for (let image of req.files) {
-    const result = await uploadToCloudinary(image.path);
+  for (const file of req.files) {
+    const result = await uploadToCloudinary(file.buffer, file.originalname);
     images.push(result);
   }
 
@@ -181,9 +187,15 @@ export const updateProductImages = asyncHandler(async (req, res) => {
     throw new ApiError(403, "You are not authorized to update this product");
   }
 
+  // const images = [];
+  // for (const image of req.files) {
+  //   const result = await uploadToCloudinary(image.path);
+  //   images.push(result);
+  // }
+
   const images = [];
-  for (const image of req.files) {
-    const result = await uploadToCloudinary(image.path);
+  for (const file of req.files) {
+    const result = await uploadToCloudinary(file.buffer, file.originalname);
     images.push(result);
   }
 
