@@ -26,13 +26,7 @@ const SellerLogin = () => {
   });
 
   const registerSeller = async () => {
-    const data = {
-      storeName,
-      email,
-      password,
-      phoneNumber,
-      address,
-    };
+    const data = { storeName, email, password, phoneNumber, address };
     try {
       const response = await axios.post("/api/v1/sellers/register", data);
       if (response.status === 201) {
@@ -46,10 +40,7 @@ const SellerLogin = () => {
   };
 
   const loginSeller = async () => {
-    const data = {
-      email,
-      password,
-    };
+    const data = { email, password };
     try {
       const response = await axios.post("/api/v1/sellers/login", data);
       if (response.status === 200) {
@@ -64,196 +55,174 @@ const SellerLogin = () => {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    if (state === "register") {
-      registerSeller();
-    } else {
-      loginSeller();
-    }
+    state === "register" ? registerSeller() : loginSeller();
   };
 
   const handleAddressChange = (e) => {
-    setAddress({
-      ...address,
-      [e.target.name]: e.target.value,
-    });
+    setAddress({ ...address, [e.target.name]: e.target.value });
   };
 
   useEffect(() => {
-    if (isSeller) {
-      navigate("/seller");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (isSeller) navigate("/seller");
+    // eslint-disable-next-line
   }, [isSeller]);
 
   return (
     !isSeller && (
-      <form
-        onSubmit={onSubmitHandler}
-        className="min-h-screen flex items-center text-sm to-gray-600"
-      >
-        <div className="flex flex-col gap-5 m-auto items-start p-8 py-12 min-w-80 sm:min-w-88 rounded-lg shadow-xl border border-gray-200">
-          <p className="text-2xl font-medium m-auto">
-            <span className="text-emerald-600">Seller</span>{" "}
-            {state === "register" ? " Register" : " Login"}
-          </p>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 to-white">
+        <form
+          onSubmit={onSubmitHandler}
+          className="bg-white/90 backdrop-blur-lg border border-gray-200 rounded-2xl shadow-2xl p-8 w-[90%] sm:w-[420px] text-gray-700 animate-fadeIn"
+        >
+          <div className="text-center mb-6">
+            <h2 className="text-3xl font-extrabold text-emerald-700">
+              FreshCart
+            </h2>
+            <p className="text-sm text-gray-500 mt-1">
+              Seller {state === "login" ? "Login" : "Registration"}
+            </p>
+          </div>
 
           {state === "register" && (
-            <div className="w-full">
-              <p>StoreName</p>
+            <div className="mb-3">
+              <label className="text-sm font-medium text-gray-600">
+                Store Name
+              </label>
               <input
-                onChange={(e) => setStoreName(e.target.value)}
-                name="storeName"
-                value={storeName}
-                placeholder="Enter Store Name"
-                className="border border-gray-200 rounded w-full p-2 mt-1 outline-emerald-600"
                 type="text"
+                value={storeName}
+                onChange={(e) => setStoreName(e.target.value)}
+                placeholder="Enter Store Name"
                 required
+                className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-lg focus:border-emerald-500 focus:ring-2 focus:ring-emerald-300 outline-none transition"
               />
             </div>
           )}
-          <div className="w-full">
-            <p>Email</p>
+
+          <div className="mb-3">
+            <label className="text-sm font-medium text-gray-600">Email</label>
             <input
-              onChange={(e) => setEmail(e.target.value)}
-              name="email"
+              type="email"
               value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter Email"
-              className="border border-gray-200 rounded w-full p-2 mt-1 outline-emerald-600"
-              type="text"
               required
+              className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-lg focus:border-emerald-500 focus:ring-2 focus:ring-emerald-300 outline-none transition"
             />
           </div>
-          <div className="w-full ">
-            <p>Password</p>
-            <div className="flex items-center justify-between border border-gray-200 rounded w-full p-2 mt-1 cursor-text transition-all focus-within:border-emerald-600 focus-within:ring-1">
+
+          <div className="mb-3">
+            <label className="text-sm font-medium text-gray-600">
+              Password
+            </label>
+            <div className="flex items-center mt-1 px-3 py-2 border border-gray-300 rounded-lg focus-within:border-emerald-500 focus-within:ring-2 focus-within:ring-emerald-300 transition">
               <input
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
-                placeholder="Enter your password"
-                className="border-none outline-none flex-1 bg-transparent"
                 type={hidePassword ? "password" : "text"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter Password"
                 required
+                className="flex-1 outline-none bg-transparent"
               />
               {hidePassword ? (
                 <FaRegEye
-                  className="text-lg cursor-pointer text-gray-500"
+                  className="text-gray-500 cursor-pointer"
                   onClick={() => setHidePassword(false)}
                 />
               ) : (
                 <FaRegEyeSlash
-                  className="text-lg cursor-pointer text-gray-500"
+                  className="text-gray-500 cursor-pointer"
                   onClick={() => setHidePassword(true)}
                 />
               )}
             </div>
           </div>
+
           {state === "register" && (
             <>
-              <div className="w-full">
-                <p>Phone Number</p>
+              <div className="mb-3">
+                <label className="text-sm font-medium text-gray-600">
+                  Phone Number
+                </label>
                 <input
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  name="phoneNumber"
-                  value={phoneNumber}
-                  placeholder="Enter Phone Number"
-                  className="border border-gray-200 rounded w-full p-2 mt-1 outline-emerald-600"
                   type="text"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  placeholder="Enter Phone Number"
                   required
+                  className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-lg focus:border-emerald-500 focus:ring-2 focus:ring-emerald-300 outline-none transition"
                 />
               </div>
-              <p className="mx-auto">Address Details:</p>
-              <div className="w-full grid sm:grid-cols-2 gap-2">
-                <div>
-                  <p>Street</p>
-                  <input
-                    onChange={handleAddressChange}
-                    name="street"
-                    value={address.street}
-                    placeholder="Enter Street"
-                    className="border border-gray-200 rounded w-full p-2 mt-1 outline-emerald-600"
-                    type="text"
-                    required
-                  />
-                </div>
-                <div>
-                  <p>City</p>
-                  <input
-                    onChange={handleAddressChange}
-                    name="city"
-                    value={address.city}
-                    placeholder="Enter City"
-                    className="border border-gray-200 rounded w-full p-2 mt-1 outline-emerald-600"
-                    type="text"
-                    required
-                  />
-                </div>
-              </div>
-              <div className="w-full grid sm:grid-cols-2 gap-2">
-                <div>
-                  <p>State</p>
-                  <input
-                    onChange={handleAddressChange}
-                    name="state"
-                    value={address.state}
-                    placeholder="Enter State"
-                    className="border border-gray-200 rounded w-full p-2 mt-1 outline-emerald-600"
-                    type="text"
-                    required
-                  />
-                </div>
-                <div>
-                  <p>zipCode</p>
-                  <input
-                    onChange={handleAddressChange}
-                    name="zipCode"
-                    value={address.zipCode}
-                    placeholder="Enter zipCode"
-                    className="border border-gray-200 rounded w-full p-2 mt-1 outline-emerald-600"
-                    type="text"
-                    required
-                  />
-                </div>
-              </div>
-              <div className="w-full">
-                <p>Country</p>
+
+              <p className="text-sm text-gray-700 font-semibold mb-1">
+                Address Details
+              </p>
+
+              <div className="grid grid-cols-2 gap-2">
                 <input
+                  name="street"
+                  value={address.street}
                   onChange={handleAddressChange}
+                  placeholder="Street"
+                  className="input-field"
+                  required
+                />
+                <input
+                  name="city"
+                  value={address.city}
+                  onChange={handleAddressChange}
+                  placeholder="City"
+                  className="input-field"
+                  required
+                />
+                <input
+                  name="state"
+                  value={address.state}
+                  onChange={handleAddressChange}
+                  placeholder="State"
+                  className="input-field"
+                  required
+                />
+                <input
+                  name="zipCode"
+                  value={address.zipCode}
+                  onChange={handleAddressChange}
+                  placeholder="Zip Code"
+                  className="input-field"
+                  required
+                />
+                <input
                   name="country"
                   value={address.country}
-                  placeholder="Enter Country"
-                  className="border border-gray-200 rounded w-full p-2 mt-1 outline-emerald-600"
-                  type="text"
+                  onChange={handleAddressChange}
+                  placeholder="Country"
+                  className="col-span-2 input-field"
                   required
                 />
               </div>
             </>
           )}
-          {state === "register" ? (
-            <p>
-              Already have account?{" "}
-              <span
-                onClick={() => setState("login")}
-                className="text-emerald-600 cursor-pointer"
-              >
-                click here
-              </span>
-            </p>
-          ) : (
-            <p>
-              Create an account?{" "}
-              <span
-                onClick={() => setState("register")}
-                className="text-emerald-600 cursor-pointer"
-              >
-                click here
-              </span>
-            </p>
-          )}
-          <button className="bg-emerald-600 text-white w-full py-2 rounded-md cursor-pointer">
-            {state === "register" ? "Register" : "Login"}
+
+          <p className="text-sm mt-4 text-center">
+            {state === "register" ? "Already have an account?" : "New Seller?"}{" "}
+            <span
+              onClick={() =>
+                setState(state === "register" ? "login" : "register")
+              }
+              className="text-emerald-600 hover:text-emerald-700 font-medium cursor-pointer"
+            >
+              {state === "register" ? "Login" : "Register"}
+            </span>
+          </p>
+
+          <button
+            type="submit"
+            className="w-full mt-5 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white font-semibold py-2.5 rounded-lg shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all"
+          >
+            {state === "register" ? "Register Store" : "Login"}
           </button>
-        </div>
-      </form>
+        </form>
+      </div>
     )
   );
 };

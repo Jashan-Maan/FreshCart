@@ -51,21 +51,9 @@ const ViewSeller = () => {
     );
   }
 
-  const StatusBadge = () => {
-    if (sellerInfo.status === "Approved") {
-      return (
-        <span className="px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-700">
-          {sellerInfo.isVerified ? "Verified" : "Approved"}
-        </span>
-      );
-    }
-    return null;
-  };
-
   return (
-    <div className="no-scrollbar flex-1 min-h-[95vh] overflow-y-scroll bg-gradient-to-b from-emerald-50/60 to-white">
+    <div className="no-scrollbar flex-1 min-h-[95vh] overflow-y-scroll mt-12 bg-gray-50/70 rounded-xl">
       {loading && <Loading />}
-
       <div className="max-w-6xl mx-auto p-4 md:p-10">
         <div className="bg-white shadow-md rounded-2xl p-8 flex flex-col md:flex-row items-center gap-6 border border-gray-100 mb-10">
           <img
@@ -100,7 +88,7 @@ const ViewSeller = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
           <div className="bg-white border border-gray-100 p-5 rounded-xl shadow-sm flex items-center gap-4">
             <HiOutlineMail className="text-2xl text-emerald-600" />
             <div>
@@ -139,7 +127,7 @@ const ViewSeller = () => {
         </div>
 
         <h3 className="text-2xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-          🛍 Products by {sellerInfo.storeName}
+          Products by {sellerInfo.storeName}
         </h3>
 
         {filteredProducts.length === 0 ? (
@@ -155,7 +143,7 @@ const ViewSeller = () => {
                   navigate(`/products/${product.category.name}/${product._id}`);
                   scrollTo(0, 0);
                 }}
-                className="bg-white p-4 rounded-xl shadow-sm hover:shadow-lg border border-gray-100 cursor-pointer transition hover:-translate-y-1"
+                className="bg-[#e5f3f3] p-4 rounded-xl shadow-sm hover:shadow-lg border border-gray-100 cursor-pointer transition hover:-translate-y-1"
               >
                 <img
                   src={product.images[0]}
@@ -166,7 +154,10 @@ const ViewSeller = () => {
                   {product.name}
                 </p>
                 <p className="text-emerald-600 font-semibold">
-                  ₹{product.offerPrice}
+                  ₹{product.offerPrice}{" "}
+                  <span className="ml-1 text-xs line-through text-gray-500">
+                    ₹{product.price}
+                  </span>
                 </p>
               </div>
             ))}

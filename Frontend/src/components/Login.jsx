@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { FaRegEye } from "react-icons/fa";
-import { AppContext } from "../context/AppContext";
 import { FaRegEyeSlash } from "react-icons/fa6";
+import { AppContext } from "../context/AppContext";
 import { useDispatch, useSelector } from "react-redux";
 import { addAndUpdateCart } from "../features/cart/cartSlice";
 import { fetchUserAuth } from "../features/auth/authSlice";
@@ -18,14 +18,13 @@ const Login = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
 
   const { toast } = useContext(AppContext);
-
   const dispatch = useDispatch();
   const products = useSelector(selectAllProducts);
 
   const setLocalCartToDB = async () => {
     const localCart = JSON.parse(localStorage.getItem("cartItems"));
     if (localCart && localCart.length > 0) {
-      toast.loading("Merging your guest cart");
+      toast.loading("Syncing your cart...");
       for (const item of localCart) {
         const fullProduct = products.find((p) => p._id === item.id);
         if (fullProduct) {
@@ -36,17 +35,12 @@ const Login = () => {
       }
       localStorage.removeItem("cartItems");
       toast.dismiss();
-      toast.success("Cart merged successfully");
+      toast.success("Cart merged successfully!");
     }
   };
 
   const registerUser = async () => {
-    const data = {
-      name,
-      email,
-      password,
-      phoneNumber,
-    };
+    const data = { name, email, password, phoneNumber };
     try {
       const response = await axios.post("/api/v1/users/register", data);
       if (response.status === 201) {
@@ -57,16 +51,13 @@ const Login = () => {
       }
     } catch (error) {
       toast.error(
-        error.response?.data?.message ||
-          "Registration Failed. Please try again."
+        error.response?.data?.message || "Registration failed. Try again."
       );
     }
   };
+
   const loginUser = async () => {
-    const data = {
-      email,
-      password,
-    };
+    const data = { email, password };
     try {
       const response = await axios.post("/api/v1/users/login", data);
       if (response.status === 200) {
@@ -76,9 +67,7 @@ const Login = () => {
         toast.success(response.data.message);
       }
     } catch (error) {
-      toast.error(
-        error.response?.data?.message || "Login Failed. Please try again."
-      );
+      toast.error(error.response?.data?.message || "Login failed. Try again.");
     }
   };
 
@@ -90,104 +79,111 @@ const Login = () => {
 
   return (
     <div
-      onClick={() => {
-        dispatch(setShowUserLogin(false));
-      }}
-      className=" w-full fixed top-0 bottom-0 left-0 rigth-0 z-30 flex justify-center item-center text-sm text-gray-600 bg-black/50"
+      onClick={() => dispatch(setShowUserLogin(false))}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-fadeIn"
     >
       <form
-        onSubmit={onSubmitHandler}
         onClick={(e) => e.stopPropagation()}
-        className="flex flex-col gap-4 m-auto items-start p-8 py-12 w-80 sm:w-[352px] text-gray-500 rounded-lg shadow-xl border border-gray-200 bg-white"
+        onSubmit={onSubmitHandler}
+        className="bg-white/90 backdrop-blur-xl border border-gray-200 shadow-2xl rounded-2xl p-8 w-[90%] sm:w-[360px] text-gray-700 flex flex-col gap-4 transition-all animate-scaleIn"
       >
-        <p className="text-2xl font-medium m-auto">
-          <span className="text-emerald-600">User</span>{" "}
-          {state === "login" ? "Login" : "Sign Up"}
-        </p>
+        {/* Title */}
+        <h2 className="text-3xl font-bold text-center text-gray-800 mb-4">
+          {state === "login" ? "Welcome Back " : "Create Account "}
+        </h2>
+
+        {/* Name Field */}
         {state === "register" && (
-          <div className="w-full">
-            <p>Name</p>
+          <div>
+            <label className="text-sm font-medium text-gray-600">
+              Full Name
+            </label>
             <input
-              onChange={(e) => setName(e.target.value)}
-              value={name}
-              placeholder="Enter your name"
-              className="border border-gray-200 rounded w-full p-2 mt-1 outline-emerald-600"
               type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Enter your name"
               required
+              className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-300 transition"
             />
           </div>
         )}
-        <div className="w-full ">
-          <p>Email</p>
+
+        {/* Email Field */}
+        <div>
+          <label className="text-sm font-medium text-gray-600">Email</label>
           <input
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-            placeholder="Enter your email"
-            className="border border-gray-200 rounded w-full p-2 mt-1 outline-emerald-600"
             type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@example.com"
             required
+            className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-300 transition"
           />
         </div>
-        <div className="w-full ">
-          <p>Password</p>
-          <div className="flex items-center justify-between border border-gray-200 rounded w-full p-2 mt-1 cursor-text transition-all focus-within:border-emerald-600 focus-within:ring-1">
+
+        {/* Password Field */}
+        <div>
+          <label className="text-sm font-medium text-gray-600">Password</label>
+          <div className="flex items-center mt-1 px-3 py-2 border border-gray-300 rounded-lg focus-within:border-emerald-500 focus-within:ring-2 focus-within:ring-emerald-300 transition">
             <input
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
-              placeholder="Enter your password"
-              className="border-none outline-none flex-1 bg-transparent"
               type={hidePassword ? "password" : "text"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter password"
               required
+              className="flex-1 outline-none bg-transparent"
             />
             {hidePassword ? (
               <FaRegEye
-                className="text-lg cursor-pointer text-gray-500"
+                className="text-gray-500 cursor-pointer"
                 onClick={() => setHidePassword(false)}
               />
             ) : (
               <FaRegEyeSlash
-                className="text-lg cursor-pointer text-gray-500"
+                className="text-gray-500 cursor-pointer"
                 onClick={() => setHidePassword(true)}
               />
             )}
           </div>
         </div>
+
+        {/* Phone Field */}
         {state === "register" && (
-          <div className="w-full">
-            <p>Phone Number</p>
+          <div>
+            <label className="text-sm font-medium text-gray-600">
+              Phone Number
+            </label>
             <input
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              value={phoneNumber}
-              placeholder="Enter your phone number"
-              className="border border-gray-200 rounded w-full p-2 mt-1 outline-emerald-600"
               type="text"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              placeholder="Enter your phone number"
               required
+              className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-300 transition"
             />
           </div>
         )}
-        {state === "register" ? (
-          <p>
-            Already have account?{" "}
-            <span
-              onClick={() => setState("login")}
-              className="text-emerald-600 cursor-pointer"
-            >
-              click here
-            </span>
-          </p>
-        ) : (
-          <p>
-            Create an account?{" "}
-            <span
-              onClick={() => setState("register")}
-              className="text-emerald-600 cursor-pointer"
-            >
-              click here
-            </span>
-          </p>
-        )}
-        <button className="bg-emerald-600 hover:bg-emerald-700 transition-all text-white w-full py-2 rounded-md cursor-pointer">
-          {state === "register" ? "Create Account" : "Login"}
+
+        {/* Switch Login/Register */}
+        <p className="text-sm text-center mt-2">
+          {state === "register" ? "Already have an account? " : "New here? "}
+          <span
+            onClick={() =>
+              setState(state === "register" ? "login" : "register")
+            }
+            className="text-emerald-600 hover:text-emerald-700 font-medium cursor-pointer transition"
+          >
+            {state === "register" ? "Login" : "Create one"}
+          </span>
+        </p>
+
+        {/* Submit Button */}
+        <button
+          type="submit"
+          className="w-full bg-gradient-to-r from-emerald-600 to-emerald-500 text-white font-semibold py-2.5 rounded-lg shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all"
+        >
+          {state === "register" ? "Sign Up" : "Login"}
         </button>
       </form>
     </div>

@@ -36,7 +36,7 @@ const Order = () => {
   }
 
   return (
-    <div className="px-4 md:px-8 max-w-4xl mx-auto h-[95vh] overflow-y-auto no-scrollbar">
+    <div className="px-4 mt-14 md:px-8 max-w-4xl mx-auto h-[95vh] overflow-y-auto no-scrollbar">
       <div className="flex flex-col items-end w-max mb-8 ">
         <p className="text-2xl font-medium uppercase mt-5">My Orders</p>
         <div className="w-16 h-0.5 bg-emerald-500 rounded-full"></div>

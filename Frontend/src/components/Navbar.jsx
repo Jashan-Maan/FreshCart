@@ -46,172 +46,209 @@ const Navbar = () => {
   // };
 
   return (
-    <nav className="flex items-center justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 border-b border-gray-300 bg-white relative transition-all">
-      <NavLink onClick={() => setOpen(false)} to="/">
-        <div className="flex items-center">
-          <img className="h-7 md:h-11" src="/images/image.png" alt="logo" />
-          <h1 className="text-xl md:text-2xl font-bold text-green-900">
-            <span className="text-green-600">Fresh</span>Cart
+    <nav className="fixed top-0 left-0 w-full bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-100 z-50 transition-all">
+      <div className="flex items-center justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-3">
+        <NavLink
+          onClick={() => setOpen(false)}
+          to="/"
+          className="flex items-center gap-2"
+        >
+          <img src="/images/image.png" alt="logo" className="h-8 md:h-10" />
+          <h1 className="text-2xl md:text-3xl font-extrabold text-emerald-700 tracking-tight">
+            Fresh<span className="text-gray-900">Cart</span>
           </h1>
-        </div>
-      </NavLink>
+        </NavLink>
 
-      {/* Desktop Menu */}
-      <div className="hidden sm:flex items-center gap-8">
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="/products">All Products</NavLink>
-        <NavLink to="/contact">Contact</NavLink>
-
-        <form
-          // onSubmit={onSearchSubmit}
-          className="hidden lg:flex items-center text-sm gap-2 border border-gray-300 px-3 rounded-full"
-        >
-          <input
-            className="py-1.5 w-full bg-transparent outline-none placeholder-gray-500"
-            type="text"
-            placeholder="Search products"
-            onChange={(e) => dispatch(setSearchQuery(e.target.value))}
-            value={searchQuery}
-          />
-          <IoSearchOutline className="text-lg text-gray-500" />
-        </form>
-
-        <div
-          onClick={() => {
-            setOpen(false);
-            navigate("/cart");
-          }}
-          className="relative cursor-pointer"
-        >
-          <FiShoppingCart className="text-xl text-emerald-600 opacity-75" />
-          <button className="absolute -top-2 -right-3 text-xs text-white bg-emerald-600 w-[18px] h-[18px] rounded-full">
-            {getCartCount}
-          </button>
-        </div>
-
-        {!userData ? (
-          <button
-            onClick={() => {
-              dispatch(setShowUserLogin(true));
-            }}
-            className="cursor-pointer px-8 py-2 bg-emerald-600 hover:bg-emerald-700 transition text-white rounded-full"
+        <div className="hidden sm:flex items-center gap-8 text-sm font-medium text-gray-700">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              `hover:text-emerald-600 transition ${
+                isActive ? "text-emerald-600 font-semibold" : ""
+              }`
+            }
           >
-            Login
-          </button>
-        ) : (
-          <div className="relative group cursor-pointer">
-            <img
-              src={userData?.avatar}
-              className="w-8 rounded-full h-8 object-cover"
-              alt="profile"
+            Home
+          </NavLink>
+          <NavLink
+            to="/products"
+            className={({ isActive }) =>
+              `hover:text-emerald-600 transition ${
+                isActive ? "text-emerald-600 font-semibold" : ""
+              }`
+            }
+          >
+            All Products
+          </NavLink>
+          <NavLink
+            to="/contact"
+            className={({ isActive }) =>
+              `hover:text-emerald-600 transition ${
+                isActive ? "text-emerald-600 font-semibold" : ""
+              }`
+            }
+          >
+            Contact
+          </NavLink>
+
+          <form className="hidden lg:flex items-center gap-2 px-4 py-1.5 bg-gray-50 border border-gray-200 rounded-full shadow-inner focus-within:ring-2 focus-within:ring-emerald-500 transition">
+            <IoSearchOutline className="text-gray-500 text-lg" />
+            <input
+              type="text"
+              placeholder="Search groceries..."
+              className="bg-transparent outline-none placeholder-gray-400 text-sm w-48"
+              value={searchQuery}
+              onChange={(e) => dispatch(setSearchQuery(e.target.value))}
             />
-            <ul className="hidden group-hover:block absolute top-8 right-0 bg-white shadow border border-gray-200 py-2.5 w-30 rounded-md text-sm z-40">
-              <li
-                onClick={() => navigate("/account")}
-                className="p-1.5 pl-3 hover:bg-emerald-600/10 cursor-pointer"
-              >
-                My Profile
-              </li>
-              <li
-                onClick={() => navigate("/addresses")}
-                className="p-1.5 pl-3 hover:bg-emerald-600/10 cursor-pointer"
-              >
-                Address Book
-              </li>
-              <li
-                onClick={() => navigate("/orders")}
-                className="p-1.5 pl-3 hover:bg-emerald-600/10 cursor-pointer"
-              >
-                My Orders
-              </li>
-              <li
-                onClick={logout}
-                className="p-1.5 pl-3 hover:bg-emerald-600/10 cursor-pointer"
-              >
-                Logout
-              </li>
-            </ul>
+          </form>
+
+          <div
+            onClick={() => navigate("/cart")}
+            className="relative cursor-pointer hover:scale-[1.05] transition"
+          >
+            <FiShoppingCart className="text-2xl text-emerald-600" />
+            <span className="absolute -top-2 -right-3 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white text-[10px] font-semibold w-[18px] h-[18px] flex items-center justify-center rounded-full shadow">
+              {getCartCount}
+            </span>
           </div>
-        )}
-      </div>
-      <div className="flex gap-6 items-center sm:hidden">
-        <div
-          onClick={() => navigate("/cart")}
-          className="relative cursor-pointer"
-        >
-          <FiShoppingCart className="text-xl text-emerald-600 opacity-75" />
-          <button className="absolute -top-2 -right-3 text-xs text-white bg-emerald-600 w-[18px] h-[18px] rounded-full">
-            {getCartCount}
+
+          {!userData ? (
+            <button
+              onClick={() => dispatch(setShowUserLogin(true))}
+              className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-full text-sm font-semibold shadow-sm hover:shadow-md transition active:scale-[.98]"
+            >
+              Login
+            </button>
+          ) : (
+            <div className="relative group">
+              <img
+                src={userData.avatar}
+                alt="profile"
+                className="w-9 h-9 rounded-full object-cover border-2 border-emerald-500 cursor-pointer"
+              />
+              <ul className="absolute hidden group-hover:flex flex-col right-0 top-9 bg-white/95 backdrop-blur-md border border-gray-200 shadow-lg rounded-lg w-44 py-2 text-sm animate-fadeIn">
+                <li
+                  onClick={() => {
+                    navigate("/account");
+                    scrollTo(0, 0);
+                  }}
+                  className="px-4 py-2 hover:bg-emerald-50 cursor-pointer"
+                >
+                  My Profile
+                </li>
+                <li
+                  onClick={() => {
+                    navigate("/orders");
+                    scrollTo(0, 0);
+                  }}
+                  className="px-4 py-2 hover:bg-emerald-50 cursor-pointer"
+                >
+                  My Orders
+                </li>
+                <li
+                  onClick={() => {
+                    navigate("/addresses");
+                    scrollTo(0, 0);
+                  }}
+                  className="px-4 py-2 hover:bg-emerald-50 cursor-pointer"
+                >
+                  Address Book
+                </li>
+                <li
+                  onClick={logout}
+                  className="px-4 py-2 text-red-600 hover:bg-red-50 cursor-pointer"
+                >
+                  Logout
+                </li>
+              </ul>
+            </div>
+          )}
+        </div>
+
+        <div className="flex gap-5 items-center sm:hidden">
+          <div
+            onClick={() => navigate("/cart")}
+            className="relative cursor-pointer"
+          >
+            <FiShoppingCart className="text-2xl text-emerald-600" />
+            <span className="absolute -top-2 -right-3 bg-emerald-600 text-white text-[10px] w-[18px] h-[18px] flex items-center justify-center rounded-full">
+              {getCartCount}
+            </span>
+          </div>
+
+          <button onClick={() => setOpen(!open)} aria-label="Menu">
+            <RiMenu3Line className="text-2xl text-gray-700" />
           </button>
         </div>
-        <button
-          onClick={() => (open ? setOpen(false) : setOpen(true))}
-          aria-label="Menu"
-          className=" cursor-pointer"
-        >
-          {/* Menu Icons*/}
-          <RiMenu3Line className="text-2xl text-gray-700" />
-        </button>
       </div>
 
-      {/* Mobile Menu */}
       <div
-        className={`${
-          open ? "flex" : "hidden"
-        } absolute top-full left-0 w-full bg-white shadow-md py-4 flex-col items-start gap-2 px-5 text-sm md:hidden z-50`}
+        className={`sm:hidden absolute top-full left-0 w-full bg-white shadow-md border-t border-gray-100 flex flex-col gap-3 px-5 py-4 text-sm font-medium transition-all duration-300 ${
+          open
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 -translate-y-4 pointer-events-none"
+        }`}
       >
-        <NavLink to="/" className="block" onClick={() => setOpen(false)}>
+        <NavLink
+          onClick={() => setOpen(false)}
+          to="/"
+          className="py-1 hover:text-emerald-600"
+        >
           Home
         </NavLink>
         <NavLink
-          to="/products"
-          className="block"
           onClick={() => setOpen(false)}
+          to="/products"
+          className="py-1 hover:text-emerald-600"
         >
           All Products
+        </NavLink>
+        <NavLink
+          onClick={() => setOpen(false)}
+          to="/contact"
+          className="py-1 hover:text-emerald-600"
+        >
+          Contact
         </NavLink>
         {userData && (
           <>
             <NavLink
-              to="/account"
-              className="block"
               onClick={() => setOpen(false)}
+              to="/account"
+              className="py-1 hover:text-emerald-600"
             >
               My Profile
             </NavLink>
             <NavLink
-              to="/orders"
-              className="block"
               onClick={() => setOpen(false)}
+              to="/orders"
+              className="py-1 hover:text-emerald-600"
             >
               My Orders
             </NavLink>
             <NavLink
-              to="/addresses"
-              className="block"
               onClick={() => setOpen(false)}
+              to="/addresses"
+              className="py-1 hover:text-emerald-600"
             >
               Address Book
             </NavLink>
           </>
         )}
-        <NavLink to="/contact" className="block" onClick={() => setOpen(false)}>
-          Contact
-        </NavLink>
         {!userData ? (
           <button
             onClick={() => {
               setOpen(false);
               dispatch(setShowUserLogin(true));
             }}
-            className="cursor-pointer px-6 py-2 mt-2 bg-emerald-600 hover:bg-emerald-700 transition text-white rounded-full text-sm"
+            className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 mt-3 rounded-full"
           >
             Login
           </button>
         ) : (
           <button
             onClick={logout}
-            className="cursor-pointer px-6 py-2 mt-2 bg-emerald-600 hover:bg-emerald-700 transition text-white rounded-full text-sm"
+            className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 mt-3 rounded-full"
           >
             Logout
           </button>

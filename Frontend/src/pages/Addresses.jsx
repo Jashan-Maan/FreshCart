@@ -53,7 +53,7 @@ const Addresses = () => {
   }
 
   return (
-    <div className="px-4 md:px-8 max-w-4xl mx-auto h-[95vh] overflow-y-auto no-scrollbar bg-gradient-to-b from-emerald-50/50 to-white pt-10">
+    <div className="px-4 md:px-8 max-w-4xl mx-auto h-[95vh] overflow-y-auto no-scrollbar bg-gradient-to-b from-emerald-50/50 to-white pt-10 mt-5">
       {loading && (
         <div className="flex h-[80vh] items-center justify-center">
           <Loading />

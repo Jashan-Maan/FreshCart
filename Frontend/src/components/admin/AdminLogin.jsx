@@ -17,10 +17,7 @@ const AdminLogin = () => {
   const [password, setPassword] = useState("");
 
   const LoginAdmin = async () => {
-    const data = {
-      email,
-      password,
-    };
+    const data = { email, password };
     try {
       const response = await axios.post("/api/v1/admin/login", data);
       if (response.status === 200) {
@@ -39,61 +36,79 @@ const AdminLogin = () => {
   };
 
   useEffect(() => {
-    if (isAdmin) {
-      navigate("/admin");
-    }
+    if (isAdmin) navigate("/admin");
   }, [isAdmin]);
 
   return (
-    <form
-      onSubmit={onSubmitHandler}
-      className="min-h-screen flex items-center text-sm to-gray-600"
-    >
-      <div className="flex flex-col gap-5 m-auto items-start p-8 py-12 min-w-80 sm:min-w-88 rounded-lg shadow-xl border border-gray-200">
-        <p className="text-2xl font-medium m-auto">
-          <span className="text-emerald-600">Admin </span>Login
-        </p>
-        <div className="w-full">
-          <p>Email</p>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 via-white to-emerald-100">
+      <form
+        onSubmit={onSubmitHandler}
+        className="bg-white/90 backdrop-blur-xl border border-gray-200 rounded-2xl shadow-2xl p-8 w-[90%] sm:w-[400px] text-gray-700 animate-fadeIn"
+      >
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-extrabold text-emerald-700">
+            FreshCart
+          </h1>
+          <p className="text-gray-500 text-sm mt-1 tracking-wide">
+            Admin Dashboard Login
+          </p>
+        </div>
+
+        {/* Email */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-600 mb-1">
+            Email
+          </label>
           <input
-            onChange={(e) => setEmail(e.target.value)}
-            name="email"
+            type="email"
             value={email}
-            placeholder="Enter Email"
-            className="border border-gray-200 rounded w-full p-2 mt-1 outline-emerald-600"
-            type="text"
+            placeholder="admin@example.com"
+            onChange={(e) => setEmail(e.target.value)}
             required
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-300 transition"
           />
         </div>
-        <div className="w-full ">
-          <p>Password</p>
-          <div className="flex items-center justify-between border border-gray-200 rounded w-full p-2 mt-1 cursor-text transition-all focus-within:border-emerald-600 focus-within:ring-1">
+
+        {/*  Password */}
+        <div className="mb-6">
+          <label className="block text-sm font-medium text-gray-600 mb-1">
+            Password
+          </label>
+          <div className="flex items-center px-3 py-2 border border-gray-300 rounded-lg focus-within:border-emerald-500 focus-within:ring-2 focus-within:ring-emerald-300 transition">
             <input
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
-              placeholder="Enter your password"
-              className="border-none outline-none flex-1 bg-transparent"
               type={hidePassword ? "password" : "text"}
+              value={password}
+              placeholder="Enter password"
+              onChange={(e) => setPassword(e.target.value)}
               required
+              className="flex-1 outline-none bg-transparent"
             />
             {hidePassword ? (
               <FaRegEye
-                className="text-lg cursor-pointer text-gray-500"
+                className="text-gray-500 cursor-pointer"
                 onClick={() => setHidePassword(false)}
               />
             ) : (
               <FaRegEyeSlash
-                className="text-lg cursor-pointer text-gray-500"
+                className="text-gray-500 cursor-pointer"
                 onClick={() => setHidePassword(true)}
               />
             )}
           </div>
         </div>
-        <button className="bg-emerald-600 text-white w-full py-2 rounded-md cursor-pointer">
+
+        <button
+          type="submit"
+          className="w-full bg-gradient-to-r from-emerald-600 to-emerald-500 text-white font-semibold py-2.5 rounded-lg shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all"
+        >
           Login
         </button>
-      </div>
-    </form>
+
+        <p className="text-center text-xs text-gray-500 mt-6">
+          © {new Date().getFullYear()} FreshCart Admin Console
+        </p>
+      </form>
+    </div>
   );
 };
 

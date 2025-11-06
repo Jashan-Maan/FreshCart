@@ -53,7 +53,7 @@ const UserProfile = () => {
   }
 
   return (
-    <div className="no-scrollbar flex-1 h-[95vh] overflow-y-scroll bg-gray-50">
+    <div className="no-scrollbar flex-1 mt-12 h-[95vh] overflow-y-scroll bg-gray-50/70 rounded-xl">
       {loading && <Loading />}
 
       <div className="max-w-6xl mx-auto p-4 md:p-8">

@@ -22,68 +22,89 @@ const footerLinks = [
       { text: "Contact Us", url: "/contact" },
     ],
   },
-  {
-    title: "Follow Us",
-    links: [
-      { text: "Instagram", url: "/", icon: <FaInstagram /> },
-      { text: "Twitter", url: "/", icon: <FaTwitter /> },
-      { text: "Facebook", url: "/", icon: <FaFacebook /> },
-      { text: "YouTube", url: "/", icon: <FaYoutube /> },
-    ],
-  },
+];
+
+const socialLinks = [
+  { icon: <FaInstagram />, url: "/", name: "Instagram" },
+  { icon: <FaTwitter />, url: "/", name: "Twitter" },
+  { icon: <FaFacebook />, url: "/", name: "Facebook" },
+  { icon: <FaYoutube />, url: "/", name: "YouTube" },
 ];
 
 const Footer = () => {
   return (
-    <div className=" mt-24 px-6 md:px-16 lg:px-24 xl:px-32 bg-emerald-600/10">
-      <div className="flex flex-col md:flex-row items-start justify-between gap-10 py-10 border-b border-gray-500/30 text-gray-500">
-        <div>
-          <div className="flex items-center">
-            <img className="h-7 md:h-11" src="/images/image.png" alt="logo" />
-            <h1 className="text-xl md:text-2xl font-bold text-green-900">
-              <span className="text-green-600">Fresh</span>Cart
-            </h1>
+    <footer className="mt-24 bg-gradient-to-br from-emerald-50 via-white to-emerald-100 border-t border-gray-200">
+      <div className="px-6 md:px-16 lg:px-24 xl:px-32 py-12">
+        <div className="flex flex-col md:flex-row justify-between gap-12 border-b border-gray-300/40 pb-10">
+          <div className="max-w-md">
+            <div className="flex items-center gap-2">
+              <img className="h-8 md:h-10" src="/images/image.png" alt="logo" />
+              <h1 className="text-2xl font-extrabold text-emerald-700">
+                Fresh<span className="text-gray-900">Cart</span>
+              </h1>
+            </div>
+            <p className="mt-4 text-gray-600 leading-relaxed">
+              FreshCart brings farm-fresh groceries and daily essentials
+              straight to your doorstep. Enjoy convenience, savings, and trust
+              in every order — your neighborhood store, online.
+            </p>
+            <div className="flex gap-3 mt-6">
+              {socialLinks.map((s, i) => (
+                <Link
+                  key={i}
+                  to={s.url}
+                  onClick={() => scrollTo(0, 0)}
+                  className="w-10 h-10 flex items-center justify-center bg-white rounded-full border border-gray-200 text-emerald-600 text-lg hover:bg-emerald-600 hover:text-white transition-all shadow-sm hover:shadow-md"
+                >
+                  {s.icon}
+                </Link>
+              ))}
+            </div>
           </div>
-          <p className="max-w-[410px] mt-6">
-            We deliver fresh groceries and snacks straight to your door. Trusted
-            by thousands, we aim to make your shopping experience simple and
-            affordable.
+
+          <div className="flex flex-wrap justify-between w-full md:w-[50%] gap-10 text-gray-700">
+            {footerLinks.map((section, index) => (
+              <div key={index} className="min-w-[140px]">
+                <h3 className="font-semibold text-lg text-gray-900 mb-4 relative">
+                  {section.title}
+                  <span className="absolute left-0 bottom-0 w-8 h-[2px] bg-emerald-600 rounded-full"></span>
+                </h3>
+                <ul className="text-sm space-y-2">
+                  {section.links.map((link, i) => (
+                    <li key={i}>
+                      <Link
+                        to={link.url}
+                        onClick={() => scrollTo(0, 0)}
+                        aria-label={link.text}
+                        className="hover:text-emerald-600 transition-colors"
+                      >
+                        {link.text}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="pt-6 text-center text-sm text-gray-500">
+          <p>
+            © {new Date().getFullYear()}{" "}
+            <Link
+              to="/"
+              className="text-emerald-600 hover:underline font-medium"
+            >
+              FreshCart
+            </Link>
+            . All Rights Reserved.
+          </p>
+          <p className="mt-1 text-gray-400 text-xs">
+            Designed with ❤️ for a cleaner, greener shopping experience.
           </p>
         </div>
-        <div className="flex flex-wrap justify-between w-full md:w-[45%] gap-8">
-          {footerLinks.map((section, index) => (
-            <div key={index} className="min-w-[120px]">
-              <h3 className="font-semibold text-base text-gray-900 md:mb-5 mb-2">
-                {section.title}
-              </h3>
-              <ul className="text-sm space-y-1">
-                {section.links.map((link, i) => (
-                  <li key={i}>
-                    <Link
-                      onClick={() => {
-                        scrollTo(0, 0);
-                      }}
-                      to={link.url}
-                      aria-label={link.text}
-                      className={`flex hover:underline items-center gap-2 hover:text-green-700 transition-colors`}
-                    >
-                      {link.icon && (
-                        <span className="text-lg">{link.icon}</span>
-                      )}
-                      <span>{link.text}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
       </div>
-      <p className="py-4 text-center text-sm md:text-base text-gray-500/80">
-        Copyright {new Date().getFullYear()} © <Link to="/">FreshCart</Link> All
-        Right Reserved.
-      </p>
-    </div>
+    </footer>
   );
 };
 
