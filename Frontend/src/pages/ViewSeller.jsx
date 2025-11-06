@@ -112,7 +112,7 @@ const ViewSeller = () => {
           </div>
 
           <div className="bg-white border border-gray-100 p-5 rounded-xl shadow-sm flex items-center gap-4">
-            <IoStorefrontOutline className="text-2xl text-emerald-600" />
+            <IoStorefrontOutline className="text-2xl md:text-5xl text-emerald-600" />
             <div>
               <p className="text-xs text-gray-500 font-semibold uppercase">
                 Store Address
