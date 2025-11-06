@@ -9,7 +9,7 @@ import { FcCancel } from "react-icons/fc";
 const SellersList = () => {
   const { toast } = useContext(AppContext);
   const [sellersData, setSellersData] = useState([]);
-  const [status, setStatus] = useState("Pending");
+  const [status, setStatus] = useState("");
   const [filteredSellers, setFiltereSellers] = useState([]);
 
   const fetchSellers = async () => {

@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-
 import { useContext, useEffect, useState } from "react";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { RxCrossCircled } from "react-icons/rx";
@@ -28,6 +27,7 @@ const Cart = () => {
   const [address, setAddress] = useState([]);
   const [showAddress, setShowAddress] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [paymentOption, setPaymentOption] = useState("COD");
 
   const fetchAddresses = async () => {
@@ -55,27 +55,39 @@ const Cart = () => {
   }, [userData]);
 
   const placeOrder = async () => {
+    setLoading(true);
     if (!selectedAddress) {
       toast.error("Please select a delivery address");
+      setLoading(false);
       return;
     }
     if (getCartCount === 0) {
       toast.error("Your Cart is empty");
+      setLoading(false);
       return;
     }
     try {
-      const response = await userApi.post("orders", {
+      const response = await userApi.post("/orders", {
         addressId: selectedAddress._id,
         paymentMethod: paymentOption,
       });
-      if (response.status === 201) {
+
+      // CAse 1: COD
+      if (paymentOption === "COD" && response.status === 201) {
         toast.success("Order placed successfully");
         await dispatch(clearCart());
         navigate("/orders");
         scrollTo(0, 0);
+      } else if (paymentOption === "Online" && response.status === 200) {
+        await dispatch(clearCart());
+        window.location.href = response.data.data.url;
+      } else {
+        toast.error("An unexpected error occurred. Please try again.");
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to place order");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -180,7 +192,9 @@ const Cart = () => {
                 </div>
               </div>
               <p className="text-center">
-                ₹{item.product.offerPrice * item.quantity}
+                ₹
+                {(item.product.offerPrice || item.product.price) *
+                  item.quantity}
               </p>
               <button
                 onClick={() => dispatch(removeFromCart(item.product._id))}
@@ -257,7 +271,7 @@ const Cart = () => {
             className="w-full border border-gray-300 bg-white px-3 py-2 mt-2 outline-none"
           >
             <option value="COD">Cash On Delivery</option>
-            {/* <option value="Online">Online Payment</option> */}
+            <option value="Online">Online Payment</option>
           </select>
         </div>
 
@@ -286,9 +300,14 @@ const Cart = () => {
           onClick={() => {
             userData ? placeOrder() : dispatch(setShowUserLogin(true));
           }}
+          disabled={loading}
           className="w-full py-3 mt-6 cursor-pointer bg-emerald-600 text-white font-medium hover:bg-emerald-700 transition"
         >
-          {paymentOption === "COD" ? " Place Order" : "Proceed to Checkout"}
+          {loading
+            ? "Placing Order..."
+            : paymentOption === "COD"
+            ? " Place Order"
+            : "Proceed to Checkout"}
         </button>
       </div>
     </div>

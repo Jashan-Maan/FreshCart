@@ -5,6 +5,7 @@ import { Cart } from "../models/cart.model.js";
 import { Address } from "../models/address.model.js";
 import { Order } from "../models/order.model.js";
 import { Product } from "../models/product.model.js";
+import { stripe } from "../config/stripeConfig.js";
 
 export const addOrder = asyncHandler(async (req, res) => {
   const { addressId, paymentMethod } = req.body;
@@ -49,7 +50,7 @@ export const addOrder = asyncHandler(async (req, res) => {
 
   const shippingFee = 0;
   const taxes = 0;
-  const platformFee = subtotal * 0.05;
+  const platformFee = Math.ceil(subtotal * 0.05);
   const totalAmount = subtotal + shippingFee + taxes + platformFee;
 
   const order = await Order.create({
@@ -79,9 +80,85 @@ export const addOrder = asyncHandler(async (req, res) => {
   cart.items = [];
   await cart.save();
 
-  return res
-    .status(201)
-    .json(new ApiResponse(201, order, "Order placed Successfully"));
+  if (paymentMethod === "COD") {
+    return res
+      .status(201)
+      .json(new ApiResponse(201, order, "Order placed Successfully"));
+  } else if (paymentMethod === "Online") {
+    const line_items = orderItems.map((item) => ({
+      price_data: {
+        currency: "inr",
+        product_data: {
+          name: item.name,
+        },
+        unit_amount: Math.round(item.price * 100),
+      },
+      quantity: item.quantity,
+    }));
+
+    if (platformFee > 0) {
+      line_items.push({
+        price_data: {
+          currency: "inr",
+          product_data: {
+            name: "Platform Fee",
+          },
+          unit_amount: Math.round(platformFee * 100),
+        },
+        quantity: 1,
+      });
+    }
+
+    // Stripe checkout session
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items: line_items,
+      mode: "payment",
+      success_url: `${process.env.FRONTEND_URL}/orders`,
+      cancel_url: `${process.env.FRONTEND_URL}/cart`,
+      metadata: {
+        orderId: order._id.toString(),
+      },
+    });
+
+    // Send session url in response
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(200, { url: session.url }, "Stripe session created")
+      );
+  }
+});
+
+export const handleStripeWebhook = asyncHandler(async (req, res) => {
+  const sig = req.headers["stripe-signature"];
+  let event;
+  try {
+    event = stripe.webhooks.constructEvent(
+      req.body,
+      sig,
+      process.env.STRIPE_WEBHOOK_SECRET
+    );
+  } catch (err) {
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  // Handle the Event
+  if (event.type === "checkout.session.completed") {
+    const session = event.data.object;
+
+    const orderId = session.metadata.orderId;
+
+    const order = await Order.findById(orderId);
+
+    if (order) {
+      order.paymentStatus = "Paid";
+      order.paymentId = session.id;
+      await order.save();
+    }
+  }
+
+  res.status(200).json(new ApiResponse(200, { received: true }));
 });
 
 export const getAllOrdersOfUser = asyncHandler(async (req, res) => {

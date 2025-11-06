@@ -122,20 +122,7 @@ const AddProduct = () => {
 
   return (
     <div className="no-scrollbar flex-1 h-[95vh] overflow-y-scroll flex flex-col justify-between relative">
-      {loading && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/60 z-10 ">
-          <div
-            className="w-12 h-12 border-4 border-gray-300 border-t-emerald-600   rounded-full animate-spin"
-            role="status"
-            aria-label="Loading..."
-          >
-            <span className="sr-only">Loading...</span>
-          </div>
-          <h1 className="text-xl font-semibold mt-4 text-gray-700">
-            Uploading...
-          </h1>
-        </div>
-      )}
+      {loading && <Loading />}
       <form
         onSubmit={onSubmitHandle}
         className="md:p-10 p-4 space-y-5 max-w-lg"

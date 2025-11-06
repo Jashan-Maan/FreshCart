@@ -1,16 +1,19 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 const Loading = () => {
   return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/60 z-10 ">
-      <div
-        className="w-12 h-12 border-4 border-gray-300 border-t-emerald-600   rounded-full animate-spin"
-        role="status"
-        aria-label="Loading..."
+    <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/70 backdrop-blur-[2px] z-50">
+      {/* Spinner */}
+      <motion.div
+        initial={{ rotate: 0 }}
+        animate={{ rotate: 360 }}
+        transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+        className="relative w-14 h-14"
       >
-        <span className="sr-only">Loading...</span>
-      </div>
-      {/* <h1 className="text-xl font-semibold mt-4 text-gray-700">Uploading...</h1> */}
+        <div className="absolute inset-0 rounded-full border-[3px] border-gray-300"></div>
+        <div className="absolute inset-0 rounded-full border-[3px] border-t-emerald-600"></div>
+      </motion.div>
     </div>
   );
 };

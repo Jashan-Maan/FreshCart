@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { assets } from "../../assets/assets";
 import { AppContext } from "../../context/AppContext";
 import adminApi from "../../api/adminApi";
+import Loading from "../../components/Loading";
 
 const AddCategory = () => {
   const { toast, navigate } = useContext(AppContext);
@@ -43,20 +44,7 @@ const AddCategory = () => {
 
   return (
     <div className=" flex-1 p-4 md:8  overflow-y-auto relative">
-      {loading && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/60 z-10 ">
-          <div
-            className="w-12 h-12 border-4 border-gray-300 border-t-emerald-600   rounded-full animate-spin"
-            role="status"
-            aria-label="Loading..."
-          >
-            <span className="sr-only">Loading...</span>
-          </div>
-          <h1 className="text-xl font-semibold mt-4 text-gray-700">
-            Uploading...
-          </h1>
-        </div>
-      )}
+      {loading && <Loading />}
       <h1 className="md:px-10 p-4 text-2xl font-medium mb-6">Add Category</h1>
       <form
         onSubmit={handleSubmit}

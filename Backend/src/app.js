@@ -1,7 +1,15 @@
 import express from "express";
 import { errorHandling } from "./middlewares/errorHandling.middleware.js";
 import cookieParser from "cookie-parser";
+import { handleStripeWebhook } from "./controllers/order.controller.js";
+
 const app = express();
+
+app.post(
+  "/api/v1/orders/webhook",
+  express.raw({ type: "application/json" }),
+  handleStripeWebhook
+);
 
 // Setting Up Middlewares
 app.use(express.json());
