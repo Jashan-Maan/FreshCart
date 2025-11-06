@@ -112,13 +112,19 @@ const ProfilePage = () => {
 
             <div className="w-full mt-6 space-y-3">
               <button
-                onClick={() => navigate("/seller/edit-seller")}
+                onClick={() => {
+                  navigate("/seller/edit-seller");
+                  scrollTo(0, 0);
+                }}
                 className="w-full flex items-center justify-center gap-2 px-6 py-2.5 bg-emerald-600 text-white rounded-lg text-sm font-semibold shadow hover:bg-emerald-700 transition cursor-pointer"
               >
                 <MdEdit size={18} /> Edit Profile
               </button>
               <button
-                onClick={() => navigate("/seller/change-password")}
+                onClick={() => {
+                  navigate("/seller/change-password");
+                  scrollTo(0, 0);
+                }}
                 className="w-full flex items-center justify-center gap-2 px-6 py-2.5 bg-gray-100 text-gray-700 rounded-lg text-sm font-semibold shadow-sm hover:bg-gray-200 transition cursor-pointer"
               >
                 <MdLockOutline size={18} /> Change Password

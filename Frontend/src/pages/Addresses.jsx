@@ -72,7 +72,10 @@ const Addresses = () => {
         </div>
 
         <button
-          onClick={() => navigate("/address")}
+          onClick={() => {
+            navigate("/address");
+            scrollTo(0, 0);
+          }}
           className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-semibold shadow hover:bg-emerald-700 hover:shadow-lg transition-all active:scale-95"
         >
           <FaPlus className="text-sm" />
@@ -92,7 +95,10 @@ const Addresses = () => {
           </p>
 
           <button
-            onClick={() => navigate("/address")}
+            onClick={() => {
+              navigate("/address");
+              scrollTo(0, 0);
+            }}
             className="px-5 py-2 bg-emerald-600 text-white rounded-lg font-medium hover:bg-emerald-700 active:scale-95 transition flex items-center gap-2"
           >
             <FaPlus /> Add Address
@@ -121,7 +127,10 @@ const Addresses = () => {
 
                 <div className="flex gap-4 text-xl">
                   <MdEdit
-                    onClick={() => navigate(`/addresses/edit/${address._id}`)}
+                    onClick={() => {
+                      navigate(`/addresses/edit/${address._id}`);
+                      scrollTo(0, 0);
+                    }}
                     className="text-emerald-500 hover:text-emerald-600 cursor-pointer transition"
                   />
                   <MdDelete

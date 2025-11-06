@@ -28,6 +28,7 @@ const AddCategory = () => {
       if (response.status === 201) {
         toast.success(response.data.message);
         navigate("/admin/categories");
+        scrollTo(0, 0);
         setName("");
         setPath("");
         setImage(null);

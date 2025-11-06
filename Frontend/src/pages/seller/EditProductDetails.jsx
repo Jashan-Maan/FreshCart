@@ -84,6 +84,7 @@ const EditProductDetails = () => {
       if (response.status === 200) {
         toast.success(response.data.message);
         navigate("/seller/product-list");
+        scrollTo(0, 0);
       }
     } catch (error) {
       toast.error(error.response.data.message);

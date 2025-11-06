@@ -107,9 +107,10 @@ const ProductList = () => {
                   <td className="px-4 py-3">
                     <div className="flex items-center justify-around text-xl">
                       <MdEdit
-                        onClick={() =>
-                          navigate(`/seller/product-list/${product._id}`)
-                        }
+                        onClick={() => {
+                          navigate(`/seller/product-list/${product._id}`);
+                          scrollTo(0, 0);
+                        }}
                         className="text-emerald-600 cursor-pointer"
                       />
                       <MdDelete

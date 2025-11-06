@@ -50,6 +50,7 @@ const EditSellerDetails = () => {
       if (response.status === 200) {
         toast.success("Profile updated successfully!");
         navigate("/seller");
+        scrollTo(0, 0);
         setFormData(response.data.data);
       }
     } catch (error) {

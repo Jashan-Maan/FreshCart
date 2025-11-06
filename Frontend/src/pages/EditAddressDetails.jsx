@@ -97,6 +97,7 @@ const EditAddressDetails = () => {
       if (response.status === 200) {
         toast.success(response.data.message);
         navigate("/addresses");
+        scrollTo(0, 0);
       }
     } catch (error) {
       toast.error(

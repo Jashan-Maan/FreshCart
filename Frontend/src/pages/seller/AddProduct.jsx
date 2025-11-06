@@ -72,6 +72,7 @@ const AddProduct = () => {
       if (response.status === 201) {
         toast.success(response.data.message);
         navigate("/seller/product-list");
+        scrollTo(0, 0);
         setName("");
         setDescription("");
         setPrice("");

@@ -39,6 +39,7 @@ const ChangePassword = () => {
       if (response.status === 200) {
         toast.success("Password changed successfully");
         navigate("/seller");
+        scrollTo(0, 0);
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to change password");

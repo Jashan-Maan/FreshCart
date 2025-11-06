@@ -97,14 +97,20 @@ const UserProfile = () => {
             {/* Buttons */}
             <div className="w-full mt-6 space-y-3">
               <button
-                onClick={() => navigate("/edit-account")}
+                onClick={() => {
+                  navigate("/edit-account");
+                  scrollTo(0, 0);
+                }}
                 className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-emerald-600 text-white rounded-lg font-medium shadow-md hover:bg-emerald-700 hover:shadow-xl active:scale-95 transition cursor-pointer"
               >
                 <MdEdit size={18} /> Edit Profile
               </button>
 
               <button
-                onClick={() => navigate("change-password")}
+                onClick={() => {
+                  navigate("change-password");
+                  scrollTo(0, 0);
+                }}
                 className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gray-100 text-gray-700 rounded-lg border border-gray-200 font-medium shadow-sm hover:bg-gray-200 hover:shadow transition active:scale-95 cursor-pointer"
               >
                 <MdLockOutline size={18} /> Change Password

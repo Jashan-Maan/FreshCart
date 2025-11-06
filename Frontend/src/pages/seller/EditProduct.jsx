@@ -17,7 +17,10 @@ const EditProduct = () => {
       </h1>
       <div className="flex flex-col md:flex-row h-4/5 items-center justify-center w-full gap-4 md:gap-8">
         <div
-          onClick={() => navigate(`/seller/product-list/${productId}/details`)}
+          onClick={() => {
+            navigate(`/seller/product-list/${productId}/details`);
+            scrollTo(0, 0);
+          }}
           className="h-48 w-full md:w-56 md:h-56 bg-[#e5f3f3] p-4 rounded-lg flex flex-col items-center justify-center gap-3 cursor-pointer transition-all hover:shadow-lg hover:scale-105"
         >
           <MdEditDocument className="text-7xl text-emerald-500" />
@@ -26,7 +29,10 @@ const EditProduct = () => {
           </p>
         </div>
         <div
-          onClick={() => navigate(`/seller/product-list/${productId}/images`)}
+          onClick={() => {
+            navigate(`/seller/product-list/${productId}/images`);
+            scrollTo(0, 0);
+          }}
           className="h-48 w-full md:w-56 md:h-56 bg-[#e5f3f3] p-4 rounded-lg flex flex-col items-center justify-center gap-3 cursor-pointer transition-all hover:shadow-lg hover:scale-105"
         >
           <FcEditImage className="text-7xl" />

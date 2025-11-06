@@ -39,6 +39,7 @@ const SellerDashboard = () => {
         toast.success(response.data.message);
         dispatch(clearSellerData());
         navigate("/seller");
+        scrollTo(0, 0);
       }
     } catch (error) {
       console.log(error);

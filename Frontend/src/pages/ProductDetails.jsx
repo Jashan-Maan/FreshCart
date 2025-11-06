@@ -102,7 +102,10 @@ const ProductDetails = () => {
             {product.name}
           </h1>
           <p
-            onClick={() => navigate(`/view/${product.seller?._id}`)}
+            onClick={() => {
+              navigate(`/view/${product.seller?._id}`);
+              scrollTo(0, 0);
+            }}
             className="text-gray-500 hover:text-emerald-600 cursor-pointer transition text-base flex items-center gap-1 hover:underline"
           >
             Sold by{" "}
@@ -195,6 +198,7 @@ const ProductDetails = () => {
                   })
                 );
                 navigate("/cart");
+                scrollTo(0, 0);
               }}
               className="w-full py-3 font-medium bg-gradient-to-r from-emerald-600 to-emerald-500 text-white rounded-lg hover:scale-[1.02] transition-all shadow-md"
             >

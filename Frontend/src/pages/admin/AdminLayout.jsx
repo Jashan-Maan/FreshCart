@@ -38,6 +38,7 @@ const AdminLayout = () => {
         toast.success(response.data.message);
         dispatch(clearAdminData());
         navigate("/admin");
+        scrollTo(0, 0);
       }
     } catch (error) {
       console.log(error);

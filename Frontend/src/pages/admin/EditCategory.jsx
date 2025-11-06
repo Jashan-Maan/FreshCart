@@ -57,6 +57,7 @@ const EditCategory = () => {
       if (response.status === 200) {
         toast.success(response.data.message);
         navigate("/admin/categories");
+        scrollTo(0, 0);
       }
     } catch (error) {
       toast.error(error.response.data.message);

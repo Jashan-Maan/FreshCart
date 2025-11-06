@@ -57,6 +57,7 @@ const AddAddress = () => {
     if (!userData) {
       toast.error("You must be logged in to save address");
       navigate("/");
+      scrollTo(0, 0);
       dispatch(setShowUserLogin(true));
       return;
     }
@@ -82,6 +83,7 @@ const AddAddress = () => {
       if (response.status === 201) {
         toast.success(response.data.message);
         navigate("/addresses");
+        scrollTo(0, 0);
       }
     } catch (error) {
       toast.error(

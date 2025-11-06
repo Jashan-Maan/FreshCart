@@ -30,6 +30,7 @@ const EditUserDetails = () => {
         toast.success(response.data.message);
         dispatch(setUserData(response.data.data));
         navigate("/account");
+        scrollTo(0, 0);
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to update user");
