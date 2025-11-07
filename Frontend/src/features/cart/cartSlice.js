@@ -31,7 +31,8 @@ export const addAndUpdateCart = createAsyncThunk(
     console.log(product);
 
     if (quantity <= 0) {
-      return dispatch(removeFromCart(product._id));
+      const action = await dispatch(removeFromCart(product._id));
+      return action.payload;
     }
 
     const { userData } = getState().auth;
@@ -113,9 +114,10 @@ const cartSlice = createSlice({
         state.status = "succeeded";
       })
       .addCase(addAndUpdateCart.fulfilled, (state, action) => {
-        if (action.payload && !action.payload.isLocal) {
-          state.items = action.payload;
-        } else if (action.payload?.isLocal) {
+        const payload = action.payload;
+        if (!payload.isLocal) {
+          state.items = payload;
+        } else if (payload.isLocal && payload.product) {
           const { product, quantity } = action.payload;
           const itemIndex = state.items.findIndex(
             (item) => item.product._id === product._id
@@ -129,6 +131,10 @@ const cartSlice = createSlice({
               seller: product.seller._id || product.seller,
             });
           }
+        } else if (payload.isLocal && payload.productId) {
+          state.items = state.items.filter(
+            (item) => item.product._id !== payload.productId
+          );
         }
       })
       .addCase(removeFromCart.fulfilled, (state, action) => {
