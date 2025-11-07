@@ -24,8 +24,15 @@ export const fetchCart = createAsyncThunk("cart/fetchCart", async () => {
 
 export const addAndUpdateCart = createAsyncThunk(
   "cart/addAndUpdateCart",
-  async ({ product, quantity, seller }, { getState, rejectWithValue }) => {
+  async (
+    { product, quantity, seller },
+    { getState, rejectWithValue, dispatch }
+  ) => {
     console.log(product);
+
+    if (quantity <= 0) {
+      return dispatch(removeFromCart(product._id));
+    }
 
     const { userData } = getState().auth;
     const productId = product._id;
@@ -106,9 +113,9 @@ const cartSlice = createSlice({
         state.status = "succeeded";
       })
       .addCase(addAndUpdateCart.fulfilled, (state, action) => {
-        if (!action.payload.isLocal) {
+        if (action.payload && !action.payload.isLocal) {
           state.items = action.payload;
-        } else {
+        } else if (action.payload?.isLocal) {
           const { product, quantity } = action.payload;
           const itemIndex = state.items.findIndex(
             (item) => item.product._id === product._id
