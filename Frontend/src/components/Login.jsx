@@ -3,7 +3,7 @@ import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa6";
 import { AppContext } from "../context/AppContext";
 import { useDispatch, useSelector } from "react-redux";
-import { addAndUpdateCart } from "../features/cart/cartSlice";
+import { addAndUpdateCart, fetchCart } from "../features/cart/cartSlice";
 import { fetchUserAuth } from "../features/auth/authSlice";
 import { setShowUserLogin } from "../features/ui/uiSlice";
 import { selectAllProducts } from "../features/products/productSlice";
@@ -50,6 +50,7 @@ const Login = () => {
       if (response.status === 201) {
         toast.success(response.data.message);
         await dispatch(fetchUserAuth());
+        await dispatch(fetchCart());
         await setLocalCartToDB();
         dispatch(setShowUserLogin(false));
       }
@@ -68,6 +69,7 @@ const Login = () => {
       });
       if (response.status === 200) {
         await dispatch(fetchUserAuth());
+        await dispatch(fetchCart());
         await setLocalCartToDB();
         dispatch(setShowUserLogin(false));
         toast.success(response.data.message);

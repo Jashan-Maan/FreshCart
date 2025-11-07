@@ -10,7 +10,7 @@ import {
   fetchSellerAuth,
   fetchUserAuth,
 } from "../features/auth/authSlice";
-import { fetchCart } from "../features/cart/cartSlice";
+// import { fetchCart } from "../features/cart/cartSlice";
 
 export const AppContext = createContext();
 
@@ -18,12 +18,12 @@ export const AppContextProvider = ({ children }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleUserAuth = async () => {
-    const userAuthResult = await dispatch(fetchUserAuth());
-    if (userAuthResult.meta.requestStatus === "fulfilled") {
-      dispatch(fetchCart());
-    }
-  };
+  // const handleUserAuth = async () => {
+  //   const userAuthResult = await dispatch(fetchUserAuth());
+  //   // if (userAuthResult.meta.requestStatus === "fulfilled") {
+  //   //   dispatch(fetchCart());
+  //   // }
+  // };
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -33,7 +33,8 @@ export const AppContextProvider = ({ children }) => {
     } else if (path.startsWith("/seller")) {
       dispatch(fetchSellerAuth());
     } else {
-      handleUserAuth();
+      // handleUserAuth();
+      dispatch(fetchUserAuth());
     }
   }, []);
 
