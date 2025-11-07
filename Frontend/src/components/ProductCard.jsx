@@ -86,7 +86,6 @@ const ProductCard = ({ product }) => {
             ) : (
               <div className="flex items-center justify-center gap-2 md:w-20 w-16 h-[34px] bg-emerald-500/25 rounded select-none">
                 <button
-                  disabled={cartItem.quantity === 0}
                   onClick={() => {
                     dispatch(
                       addAndUpdateCart({
