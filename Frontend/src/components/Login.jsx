@@ -29,6 +29,7 @@ const Login = () => {
       for (const item of localCart) {
         const fullProduct = products.find((p) => p._id === item.id);
         if (fullProduct) {
+          console.log(fullProduct);
           await dispatch(
             addAndUpdateCart({ product: fullProduct, quantity: item.quantity })
           );

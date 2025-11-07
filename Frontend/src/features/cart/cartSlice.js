@@ -25,6 +25,8 @@ export const fetchCart = createAsyncThunk("cart/fetchCart", async () => {
 export const addAndUpdateCart = createAsyncThunk(
   "cart/addAndUpdateCart",
   async ({ product, quantity, seller }, { getState, rejectWithValue }) => {
+    console.log(product);
+
     const { userData } = getState().auth;
     const productId = product._id;
     const sellerId = seller || product.seller._id || product.seller;
