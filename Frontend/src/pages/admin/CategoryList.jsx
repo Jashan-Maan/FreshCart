@@ -3,13 +3,16 @@ import { useContext, useEffect, useState } from "react";
 import { MdDelete, MdEdit, MdError } from "react-icons/md";
 import adminApi from "../../api/adminApi";
 import { AppContext } from "../../context/AppContext";
+import { motion } from "framer-motion";
+import Loading from "../../components/Loading";
 
 const CategoryList = () => {
   const { toast, navigate } = useContext(AppContext);
-
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchCategories = async () => {
+    setLoading(true);
     try {
       const response = await adminApi.get("/categories");
       if (response.status === 200) {
@@ -17,7 +20,11 @@ const CategoryList = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message);
+      toast.error(
+        error.response?.data?.message || "Failed to fetch categories"
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -29,7 +36,7 @@ const CategoryList = () => {
         fetchCategories();
       }
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || "Failed to delete category");
     }
   };
 
@@ -37,72 +44,91 @@ const CategoryList = () => {
     fetchCategories();
   }, []);
 
-  return categories.length > 0 ? (
-    <div className=" no-scrollbar flex-1 h-[95vh] overflow-y-scroll  flex flex-col justify-between">
-      <div className="w-full md:p-10 p-4">
-        <h2 className="pb-4 text-lg font-medium">All Categories</h2>
-        <div className="flex flex-col items-center max-w-4xl w-full overflow-hidden rounded-md bg-white border border-gray-500/20">
-          <table className="md:table-auto table-fixed w-full overflow-hidden">
-            <thead className="text-gray-900 text-sm text-left">
-              <tr>
-                <th className="px-4 py-3 font-semibold truncate">Image</th>
-                <th className="px-4 py-3 font-semibold truncate">Name</th>
-                <th className="px-4 py-3 font-semibold truncate hidden md:block">
-                  Background Color
-                </th>
-                <th className="px-4 py-3 font-semibold truncate">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="text-sm text-gray-500">
-              {categories.map((category) => (
-                <tr key={category._id} className="border-t border-gray-500/20">
-                  <td className="md:px-4 pl-2 md:pl-4 py-3 flex items-center space-x-3 truncate">
-                    <div className="border border-gray-300 rounded overflow-hidden">
-                      <img
-                        src={category.image}
-                        alt="Product"
-                        className="w-16"
-                      />
-                    </div>
-                  </td>
-                  <td className="px-4 py-3">{category.name}</td>
-                  <td className="px-4 py-3 max-md:hidden">
-                    <div
-                      className="w-8 h-8 ml-8"
-                      style={{ backgroundColor: category.color }}
-                    ></div>
-                  </td>
-                  <td className="px-4 py-3">
-                    <div className="flex items-center justify-around text-xl">
-                      <MdEdit
-                        onClick={() => {
-                          navigate(`/admin/categories/${category._id}`);
-                          scrollTo(0, 0);
-                        }}
-                        className="text-emerald-600 cursor-pointer"
-                      />
-                      <MdDelete
-                        onClick={() => handleDeleteCategory(category._id)}
-                        className="text-red-500 cursor-pointer"
-                      />
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+  // Loading Screen
+  if (loading) {
+    return <Loading />;
+  }
+
+  // Empty State
+  if (categories.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center h-[95vh] text-gray-500">
+        <MdError className="text-5xl text-gray-400 mb-3" />
+        <p className="text-lg font-medium">
+          Oops! There are no categories to show.
+        </p>
       </div>
-    </div>
-  ) : (
-    <div className="flex h-[95vh] items-center justify-center w-full">
-      <div className="flex items-center justify-between max-w-80 w-full bg-red-600/20 text-red-600 px-3 h-10 rounded-sm">
-        <div className="flex items-center">
-          <MdError className="text-xl md:text-2xl" />
-          <p className="text-sm md:text-base ml-2">
-            Oops! There is no category to show
+    );
+  }
+
+  return (
+    <div className="no-scrollbar flex-1 h-[95vh] overflow-y-auto bg-gray-50 py-10 px-4 md:px-10">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-3">
+        <div>
+          <h2 className="text-2xl font-semibold text-gray-800">
+            Manage Categories
+          </h2>
+          <p className="text-gray-500 text-sm">
+            View, edit, or delete product categories on the platform.
           </p>
         </div>
+        <button
+          onClick={() => navigate("/admin/add-category")}
+          className="bg-emerald-600 text-white px-5 py-2 rounded-md font-medium hover:bg-emerald-700 transition"
+        >
+          + Add Category
+        </button>
+      </div>
+
+      {/* Categories Grid */}
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 cursor-pointer">
+        {categories.map((category, index) => (
+          <motion.div
+            key={category._id}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.05 }}
+            className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200"
+          >
+            {/* Image */}
+            <div className="relative">
+              <img
+                src={category.image}
+                alt={category.name}
+                className=" block mx-auto w-40 h-40 object-cover rounded-t-xl hover:scale-105 transition duration-300"
+              />
+              <div
+                className="absolute top-2 right-2 w-6 h-6 rounded-full shadow-md"
+                style={{ backgroundColor: category.color }}
+                title={`Category Color: ${category.color}`}
+              ></div>
+            </div>
+
+            {/* Info */}
+            <div className="p-4 flex flex-col items-center text-center">
+              <h3 className="font-semibold text-gray-800 text-lg truncate w-full">
+                {category.name}
+              </h3>
+
+              <div className="flex items-center justify-center gap-4 mt-4 text-xl">
+                <MdEdit
+                  onClick={() => {
+                    navigate(`/admin/categories/${category._id}`);
+                    scrollTo(0, 0);
+                  }}
+                  className="text-emerald-600 hover:text-emerald-700 cursor-pointer transition hover:scale-105 duration-300"
+                  title="Edit Category"
+                />
+                <MdDelete
+                  onClick={() => handleDeleteCategory(category._id)}
+                  className="text-red-500 hover:text-red-600 cursor-pointer transition hover:scale-105 duration-300"
+                  title="Delete Category"
+                />
+              </div>
+            </div>
+          </motion.div>
+        ))}
       </div>
     </div>
   );

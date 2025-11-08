@@ -328,7 +328,7 @@ export const productList = asyncHandler(async (req, res) => {
 
 export const orderList = asyncHandler(async (req, res) => {
   const orders = await Order.find({ "items.seller": req.seller?._id })
-    .populate("items.product", "name images")
+    .populate("items.product", "name images price offerPrice")
     .sort({
       createdAt: -1,
     });
