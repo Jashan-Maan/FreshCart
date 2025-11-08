@@ -3,7 +3,7 @@ import { v2 as cloudinary } from "cloudinary";
 import ApiError from "./ApiError.js";
 import { connectCloudinary } from "../config/cloudinaryConfig.js";
 
-await connectCloudinary();
+connectCloudinary();
 
 const extractPublicId = (imageUrl) => {
   //   const publicId = imageUrl.split("/")[7].split(".")[0];

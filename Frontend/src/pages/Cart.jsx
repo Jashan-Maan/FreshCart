@@ -66,6 +66,13 @@ const Cart = () => {
       setLoading(false);
       return;
     }
+    if (getCartAmount < 45 && paymentOption === "Online") {
+      toast.error(
+        "Minimum order amount is ₹45 for Online payment. Increase Amount or select COD"
+      );
+      setLoading(false);
+      return;
+    }
     try {
       const response = await userApi.post("/orders", {
         addressId: selectedAddress._id,

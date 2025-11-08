@@ -49,8 +49,8 @@ const Login = () => {
       if (response.status === 201) {
         toast.success(response.data.message);
         await dispatch(fetchUserAuth());
-        await dispatch(fetchCart());
         await setLocalCartToDB();
+        await dispatch(fetchCart());
         dispatch(setShowUserLogin(false));
       }
     } catch (error) {
@@ -68,8 +68,8 @@ const Login = () => {
       });
       if (response.status === 200) {
         await dispatch(fetchUserAuth());
-        await dispatch(fetchCart());
         await setLocalCartToDB();
+        await dispatch(fetchCart());
         dispatch(setShowUserLogin(false));
         toast.success(response.data.message);
       }

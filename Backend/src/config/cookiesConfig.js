@@ -1,6 +1,3 @@
-import dotenv from "dotenv";
-dotenv.config({ path: "./.env" });
-
 const isProduction = process.env.NODE_ENV === "production";
 
 export const cookiesOptions = {

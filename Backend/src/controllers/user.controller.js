@@ -170,6 +170,7 @@ export const loggedInUpdateUserInfo = asyncHandler(async (req, res) => {
     },
     {
       new: true,
+      runValidators: true,
     }
   ).select("-password -refreshToken");
   if (!user) {

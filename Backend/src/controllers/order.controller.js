@@ -182,7 +182,17 @@ export const getAllOrdersOfUser = asyncHandler(async (req, res) => {
 export const getSingleOrderOfUser = asyncHandler(async (req, res) => {
   const { orderId } = req.params;
 
-  const order = await Order.findOne({ _id: orderId, user: req.user._id });
+  const order = await Order.findOne({ _id: orderId, user: req.user._id })
+    .populate({
+      path: "items.product",
+      select: "name images category offerPrice price",
+      populate: {
+        path: "category",
+        select: "name",
+      },
+    })
+    .populate({ path: "items.seller", select: "storeName" })
+    .sort({ createdAt: -1 });
 
   if (!order) {
     throw new ApiError(404, "Order not found");
