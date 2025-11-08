@@ -27,9 +27,8 @@ const Login = () => {
     if (localCart && localCart.length > 0) {
       toast.loading("Syncing your cart...");
       for (const item of localCart) {
-        const fullProduct = products.find((p) => p._id === item.id);
+        const fullProduct = products.find((p) => p._id === item.product._id);
         if (fullProduct) {
-          console.log(fullProduct);
           await dispatch(
             addAndUpdateCart({ product: fullProduct, quantity: item.quantity })
           );

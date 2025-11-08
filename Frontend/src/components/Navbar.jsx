@@ -103,7 +103,10 @@ const Navbar = () => {
           </form>
 
           <div
-            onClick={() => navigate("/cart")}
+            onClick={() => {
+              navigate("/cart");
+              scrollTo(0, 0);
+            }}
             className="relative cursor-pointer hover:scale-[1.05] transition"
           >
             <FiShoppingCart className="text-2xl text-emerald-600" />
@@ -167,7 +170,11 @@ const Navbar = () => {
 
         <div className="flex gap-5 items-center sm:hidden">
           <div
-            onClick={() => navigate("/cart")}
+            onClick={() => {
+              navigate("/cart");
+              scrollTo(0, 0);
+              setOpen(false);
+            }}
             className="relative cursor-pointer"
           >
             <FiShoppingCart className="text-2xl text-emerald-600" />

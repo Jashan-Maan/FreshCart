@@ -28,7 +28,6 @@ export const addAndUpdateCart = createAsyncThunk(
     { product, quantity, seller },
     { getState, rejectWithValue, dispatch }
   ) => {
-    console.log(product);
 
     if (quantity <= 0) {
       const action = await dispatch(removeFromCart(product._id));
