@@ -11,19 +11,18 @@ app.set("trust proxy", 1);
 const allowedOrigins = [
   "https://freshcart-snowy.vercel.app",
   "http://localhost:5173",
-  process.env.CORS_ORIGIN,
 ];
 
 const corsOptions = {
   origin: function (origin, callback) {
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
     }
   },
   credentials: true,
+  allowedHeaders: ["Content-Type", "Authorization"],
 };
 
 app.use(cors(corsOptions));
