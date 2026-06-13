@@ -24,6 +24,8 @@
   <img src="https://img.shields.io/badge/Made%20With-Love❤️-red?style=for-the-badge"/>
 </p>
 
+🚀 **Live Application:** [https://freshcart-snowy.vercel.app/](https://freshcart-snowy.vercel.app/)
+
 Welcome to the complete monorepo for **FreshCart**, a production-ready, full-stack grocery marketplace.  
 This MERN stack system is designed to be **scalable, secure, and feature-rich**, supporting 3 major user roles.
 
@@ -95,16 +97,16 @@ This repository contains two primary applications:
 
 ### Frontend `/Frontend`
 
-| Technology        | Purpose                        |
-| ----------------- | ------------------------------ |
-| React 19 + Vite 7 | UI Framework & build tool      |
-| React Router v7   | Routing & layouts              |
-| Redux Toolkit     | Global state management        |
-| Axios             | API requests + interceptors    |
-| Tailwind CSS v4   | Styling (Vite plugin)          |
-| Framer Motion     | Animations & transitions       |
-| React-Hot-Toast   | Toast notifications            |
-| React Icons       | Icon library                   |
+| Technology        | Purpose                     |
+| ----------------- | --------------------------- |
+| React 19 + Vite 7 | UI Framework & build tool   |
+| React Router v7   | Routing & layouts           |
+| Redux Toolkit     | Global state management     |
+| Axios             | API requests + interceptors |
+| Tailwind CSS v4   | Styling (Vite plugin)       |
+| Framer Motion     | Animations & transitions    |
+| React-Hot-Toast   | Toast notifications         |
+| React Icons       | Icon library                |
 
 ---
 
