@@ -32,7 +32,7 @@ import AddProduct from "./pages/seller/AddProduct";
 import ProductList from "./pages/seller/ProductList";
 import EditProduct from "./pages/seller/EditProduct";
 import EditProductDetails from "./pages/seller/EditProductDetails";
-import EditProjectImages from "./pages/seller/EditProjectImages";
+import EditProductImages from "./pages/seller/EditProductImages";
 import Orders from "./pages/seller/Orders";
 
 // Admin Pages
@@ -156,7 +156,7 @@ const App = () => {
             />
             <Route
               path="product-list/:productId/images"
-              element={<EditProjectImages />}
+              element={<EditProductImages />}
             />
           </Route>
 
