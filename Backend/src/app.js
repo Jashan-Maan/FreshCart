@@ -30,7 +30,7 @@ app.use(cors(corsOptions));
 app.post(
   "/api/v1/orders/webhook",
   express.raw({ type: "application/json" }),
-  handleStripeWebhook
+  handleStripeWebhook,
 );
 
 // Setting Up Middlewares
