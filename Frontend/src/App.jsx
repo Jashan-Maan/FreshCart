@@ -50,17 +50,24 @@ import PageNotFound from "./pages/PageNotFound";
 const App = () => {
   const location = useLocation();
   const showUserLogin = useSelector((state) => state.ui.showUserLogin);
+  
+  // Classify current route paths for layouts/permissions
   const isSellerPath = location.pathname.includes("/seller");
   const isAdminPath = location.pathname.includes("/admin");
+  
+  // Extract user authorization details from Redux state
   const isSeller = useSelector((state) => state.auth.isSeller);
   const isAdmin = useSelector((state) => state.auth.isAdmin);
 
+  // Render header navbar and footer only on standard customer-facing pages
   const showNavbarFooter = !isSellerPath && !isAdminPath;
 
   return (
     <div className="min-h-screen bg-white text-gray-800 flex flex-col">
+      {/* Conditionally render header navbar */}
       {showNavbarFooter && <Navbar />}
 
+      {/* Global authentication modal portal */}
       {showUserLogin && <Login />}
 
       <Toaster position="top-center" toastOptions={{ duration: 2500 }} />
