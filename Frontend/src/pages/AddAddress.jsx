@@ -5,6 +5,7 @@ import { AppContext } from "../context/AppContext";
 import { useDispatch, useSelector } from "react-redux";
 import { setShowUserLogin } from "../features/ui/uiSlice";
 
+// Custom input field component used for address form fields
 const InputField = ({ type, placeholder, name, handleChange, address }) => (
   <input
     className="w-full px-2 py-2.5 border border-gray-500/30 rounded outline-none text-gray-500 focus:border-emerald-600 transition"
@@ -17,11 +18,18 @@ const InputField = ({ type, placeholder, name, handleChange, address }) => (
   />
 );
 
+/**
+ * AddAddress Page Component
+ * Allows registered users to add a new shipping address to their account.
+ * Handles form state, verification of user authentication status,
+ * and calling the user address creation API endpoint.
+ */
 const AddAddress = () => {
   const { toast, navigate } = useContext(AppContext);
   const userData = useSelector((state) => state.auth.userData);
   const dispatch = useDispatch();
 
+  // Local state to store new address form details
   const [address, setAddress] = useState({
     firstName: "",
     lastName: "",
@@ -35,6 +43,7 @@ const AddAddress = () => {
     isDefault: false,
   });
 
+  // Handle updates to address fields (including checkboxes)
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
@@ -51,9 +60,11 @@ const AddAddress = () => {
     }
   };
 
+  // Submit the form and dispatch details to the backend API
   const onSumbitHandler = async (e) => {
     e.preventDefault();
 
+    // Ensure user is authenticated before allowing address creation
     if (!userData) {
       toast.error("You must be logged in to save address");
       navigate("/");
@@ -62,11 +73,13 @@ const AddAddress = () => {
       return;
     }
 
+    // Ensure address type is selected
     if (address.addressType === "") {
       toast.error("Please select addressType");
       return;
     }
 
+    // Format the address payload for backend consumption
     const data = {
       recipientName: address.firstName + " " + address.lastName,
       street: address.street,
